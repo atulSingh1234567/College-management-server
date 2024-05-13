@@ -3,24 +3,24 @@ import fs from 'fs'
 
           
 cloudinary.config({ 
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
-  api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: process.env.CLOUDINARY_API_SECRET 
-});
+    cloud_name: 'dbfwrunmv', 
+    api_key: '392676588311384', 
+    api_secret: '55C6isqxyiWDI92USjgCoAyFzeA' 
+  });
 
-const uploadOnCloudinary = async (localFilePath)=>{
+const uploadOnCloudinary = async (localFilePath,pdfitis)=>{
     try {
+        
         if(!localFilePath) return null
 
-        const response = await cloudinay.uploader.upload(localFilePath , {
-            resource_type : 'auto'
+        const response = await cloudinary.uploader.upload(localFilePath , {
+            resource_type : `${pdfitis || 'auto'}`
         })
-
-        console.log(response.url);
         fs.unlinkSync(localFilePath)
         return response
     } catch (error) {
         fs.unlinkSync(localFilePath);
+        console.log('an error occured while uploading on cloudinary' + error)
         return null
     }
 }

@@ -1,4 +1,5 @@
 import { Admin } from "../models/admin.models.js";
+import { uploadOnCloudinary } from "../utility/cloudinary.js";
 
 const generateAccessAndRefreshTokens = async function(userId){
     const admin = await Admin.findById(userId);
@@ -37,7 +38,10 @@ export const loginAdmin = async function(req , res){
      return res.cookie('accessToken' , accessToken, {
      httpOnly: true,
      sameSite: "lax"
-   }).send(data);
+   }).json({
+    data,
+    accessToken
+   });
 }
 
 //add admin route
@@ -60,7 +64,67 @@ export const addAdmin = async function(req , res){
     })
 }
 
-// post a job route
+// profile photo router
+
+export const uploadProfilePhoto = async function(req , res){
+     try {
+        const imgPath = req.file;
+        console.log(imgPath)
+        const imgurl = await uploadOnCloudinary(imgPath.path);
+        console.log(imgurl);
+        if(imgurl){
+            const admin = await Admin.findById(req.admin._id);
+            admin.imgurl = imgurl.secure_url
+
+            await admin.save({validateBeforeSave : false})
+            const profilePhotoURL = imgurl.secure_url;
+            return res.status(200).json({
+                profilePhotoURL,
+                message: 'Profile photo has been set'
+            })
+        }
+     } catch (error) {
+           return res.status(500).json({
+            error,
+            message: 'Error while setting profile photo'
+           })
+     }
+}
+
+// change password
+
+export const changePassword = async (req,res)=>{
+    try {
+        const {newPassword} = req.body;
+        const admin = await Admin.findById(req.admin._id);
+
+        admin.password = newPassword;
+        await admin.save({validateBeforeSave: false});
+
+        return res.status(200).json({
+            message: 'Password updated successfully'
+        })
+    } catch (error) {
+        
+    }
+}
+
+// deleting admin
+export const deleteAdmin = async (req,res)=>{
+    try {
+        const {_id} = req.body;
+        await Admin.delete({_id})
+
+        return res.status(200).json({
+            message: 'Admin has been removed'
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'error while removing Admin'
+        })
+    }
+}
+
 
 
 

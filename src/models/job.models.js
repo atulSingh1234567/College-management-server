@@ -9,7 +9,7 @@ const jobSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    package: {
+    ctc: {
         type: String,
         required: true
     },

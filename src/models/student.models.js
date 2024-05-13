@@ -27,6 +27,10 @@ const studentSchema = Schema({
     company: {
         type: String,
         required: true
+    },
+    ctc: {
+        type: String,
+        required: true
     }
 
 })

@@ -30,6 +30,7 @@ connectDB()
 import adminRouter from './src/routes/admin.routes.js'
 import studentRouter from './src/routes/student.routes.js'
 import jobRouter from './src/routes/job.routes.js'
+
 app.use('/api/v1' , adminRouter);
 app.use('/api/v1' , studentRouter);
 app.use('/api/v1' , jobRouter)
