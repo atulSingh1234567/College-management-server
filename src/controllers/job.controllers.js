@@ -45,3 +45,16 @@ export const deleteJob = async (req,res)=>{
         })
     }
 }
+
+export const showJobs = async (req,res)=>{
+    try {
+        const response = await Job.find();
+        return res.status(200).json({
+            response
+        })
+    } catch (error) {
+        return res.status(404).json({
+            error
+        })
+    }
+}

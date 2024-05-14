@@ -46,22 +46,30 @@ export const loginAdmin = async function(req , res){
 
 //add admin route
 export const addAdmin = async function(req , res){
-    const {email , password} = req.body;
-    if(!email || !password){
-        return res.status(401).json({
-            message: "email or password is not given"
+    try {
+        const {email , password} = req.body.newadmin;
+        if(!email || !password){
+            return res.status(401).json({
+                message: "email or password is not given"
+            })
+        }
+    
+        const addedAdmin = await Admin.create({
+            email,
+            password
+        })
+    
+        return res.status(200).json({
+            message: "Admin added",
+            addedAdmin
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error,
+            message: 'error while adding admin'
         })
     }
-
-    const addedAdmin = await Admin.create({
-        email,
-        password
-    })
-
-    return res.status(200).json({
-        message: "Admin added",
-        addedAdmin
-    })
 }
 
 // profile photo router
@@ -126,6 +134,21 @@ export const deleteAdmin = async (req,res)=>{
 }
 
 
+// get admin
+export const getLoggedInAdmin = async (req,res)=>{
+     try {
+        const {_id} = req.admin
+        const admin =  await Admin.findById(_id);
+        return res.status(200).json({
+            admin
+        })
+     } catch (error) {
+        return res.status(404).json({
+            error,
+            message: 'Admin not found'
+        })
+     }
+}
 
 
 // private route

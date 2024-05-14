@@ -1,6 +1,6 @@
 import { Student } from "../models/student.models.js";
 import { uploadOnCloudinary } from "../utility/cloudinary.js";
-
+import { Admin } from "../models/admin.models.js";
 export const addStudent = async (req,res,next)=>{
        try {
               const {name,role,rollno,batch,course,company,ctc} = req.body;
@@ -33,5 +33,19 @@ export const addStudent = async (req,res,next)=>{
                      error,
                      message: 'Student could not be added'
               })
+       }
+}
+
+
+export const showStudents = async (req,res)=>{
+       try {
+              const response = await Student.find();
+              return res.status(200).json({
+                     response
+              })
+       } catch (error) {
+            return res.status(404).json({
+              error
+            })
        }
 }
