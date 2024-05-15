@@ -4,7 +4,7 @@ import { addJobToDB, deleteJob, showJobs } from "../controllers/job.controllers.
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router();
-router.route('/post-job').post(upload.single('description') , addJobToDB)
+router.route('/post-job').post(verifyJWT,upload.single('description') , addJobToDB)
 router.route('/delete-job').post(verifyJWT , deleteJob)
 router.route('/show-jobs').get(showJobs);
 export default router

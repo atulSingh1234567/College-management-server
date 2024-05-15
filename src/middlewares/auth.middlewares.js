@@ -2,14 +2,13 @@ import jwt from 'jsonwebtoken';
 import {Admin} from '../models/admin.models.js'
 
 export const verifyJWT = async (req,res,next)=>{
-    
-    const token = req.cookies?.accessToken || req.body.accessToken;
-    
-    if(!token){
+    const token = req.cookies?.accessToken || req.body.accessToken || req.headers['authorization'];
+
+    if(!token && !accessToken){
         return res.status(401).send('Access token not found');
     }
 
-    const decodedInfo = jwt.verify(token , process.env.ACCESS_TOKEN_SECRET)
+    const decodedInfo = jwt.verify(token || accessToken , process.env.ACCESS_TOKEN_SECRET)
 
     const currentAdmin = await Admin.findById(decodedInfo?._id).select("-password -refreshToken");
 

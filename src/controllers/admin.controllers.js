@@ -139,6 +139,7 @@ export const getLoggedInAdmin = async (req,res)=>{
      try {
         const {_id} = req.admin
         const admin =  await Admin.findById(_id);
+        console.log(admin)
         return res.status(200).json({
             admin
         })
