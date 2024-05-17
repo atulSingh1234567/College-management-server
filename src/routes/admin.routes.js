@@ -3,6 +3,7 @@ import { loginAdmin,addMainAdmin,addAdmin,uploadProfilePhoto, changePassword, de
 import { verifyJWT } from '../middlewares/auth.middlewares.js';
 import { upload } from '../middlewares/multer.middlewares.js';
 
+
 const router = Router();
 
 router.route("/admin-login").post(loginAdmin)
@@ -12,6 +13,8 @@ router.route("/add-admin").post(verifyJWT, addAdmin)
 router.route("/profile-photo").post(verifyJWT, upload.single('imgurl') , uploadProfilePhoto)
 // change password route
 router.route("/change-password").post(verifyJWT , changePassword);
+// change profile
+router.route('/change-profile').post(verifyJWT, upload.single('url') , uploadProfilePhoto)
 // deleting subadmins
 router.route("/delete-admin").post(verifyJWT , deleteAdmin);
 // get admin

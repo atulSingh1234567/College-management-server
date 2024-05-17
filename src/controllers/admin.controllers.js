@@ -14,7 +14,6 @@ const generateAccessAndRefreshTokens = async function(userId){
 
 export const loginAdmin = async function(req , res){
      const {email , password} = req.body;
-     console.log(password)
      const admin = await Admin.findOne({email});
 
      if(!admin){
@@ -40,7 +39,8 @@ export const loginAdmin = async function(req , res){
      sameSite: "lax"
    }).json({
     data,
-    accessToken
+    accessToken,
+    message: 'admin loggedin successfully'
    });
 }
 
@@ -103,17 +103,17 @@ export const uploadProfilePhoto = async function(req , res){
 
 export const changePassword = async (req,res)=>{
     try {
-        const {newPassword} = req.body;
+        const {newpassword} = req.body;
         const admin = await Admin.findById(req.admin._id);
-
-        admin.password = newPassword;
+        console.log('new password' , newpassword)
+        admin.password = newpassword;
         await admin.save({validateBeforeSave: false});
 
         return res.status(200).json({
             message: 'Password updated successfully'
         })
     } catch (error) {
-        
+        console.log(error)
     }
 }
 
