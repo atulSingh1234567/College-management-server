@@ -40,6 +40,7 @@ export const loginAdmin = async function(req , res){
    }).json({
     data,
     accessToken,
+    refreshToken,
     message: 'admin loggedin successfully'
    });
 }

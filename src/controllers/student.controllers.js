@@ -1,6 +1,6 @@
 import { Student } from "../models/student.models.js";
 import { uploadOnCloudinary } from "../utility/cloudinary.js";
-import { Admin } from "../models/admin.models.js";
+
 export const addStudent = async (req,res,next)=>{
        try {
               const {name,role,rollno,batch,course,company,ctc} = req.body;
