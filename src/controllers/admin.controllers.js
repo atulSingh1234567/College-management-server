@@ -48,7 +48,8 @@ export const loginAdmin = async function(req , res){
 //add admin route
 export const addAdmin = async function(req , res){
     try {
-        const {email , password} = req.body.newadmin;
+        const {email , password} = req.body;
+        console.log(req.body)
         if(!email || !password){
             return res.status(401).json({
                 message: "email or password is not given"
